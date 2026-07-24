@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -8,18 +9,35 @@ namespace HeadshotFeedback.Components;
 
 public class AudioLoader : MonoBehaviour
 {
+    private static readonly List<AudioClip> AudioClips = [];
     private static AudioSource _audioSource;
 
     private void Awake()
     {
-        var path = Path.Combine(
-            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(),
-            "Sounds", "Headshot.mp3");
         _audioSource = gameObject.AddComponent<AudioSource>();
-        _audioSource.clip = LoadAudio(path);
+
+        var soundsDir = Path.Combine(
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(),
+            "Sounds");
+
+        if (!Directory.Exists(soundsDir))
+        {
+            HeadshotFeedback.Logger.LogError($"Sounds directory not found at: {soundsDir}");
+            return;
+        }
+
+        var files = Directory.GetFiles(soundsDir);
+        foreach (var file in files)
+        {
+            var clip = LoadAudio(file);
+            if (clip != null)
+            {
+                AudioClips.Add(clip);
+            }
+        }
     }
 
-    private AudioClip LoadAudio(string path)
+    private static AudioClip LoadAudio(string path)
     {
         if (!File.Exists(path))
         {
@@ -27,7 +45,7 @@ public class AudioLoader : MonoBehaviour
             return null;
         }
 
-        var url = "file://" + path;
+        var url = $"file://{path}";
         using var uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG);
         uwr.SendWebRequest();
 
@@ -36,7 +54,9 @@ public class AudioLoader : MonoBehaviour
         }
 
         if (uwr.result == UnityWebRequest.Result.Success)
+        {
             return DownloadHandlerAudioClip.GetContent(uwr);
+        }
 
         HeadshotFeedback.Logger.LogError($"Failed to load audio: {uwr.error}");
         return null;
@@ -44,19 +64,21 @@ public class AudioLoader : MonoBehaviour
 
     public static void PlaySfx()
     {
-        if (_audioSource.clip == null)
+        if (AudioClips.Count == 0)
             return;
+
+        var clip = AudioClips[UnityEngine.Random.Range(0, AudioClips.Count)];
 
         if (PersistenceController.instance == null)
         {
             _audioSource.volume = 0.5f;
-            _audioSource.PlayOneShot(_audioSource.clip);
+            _audioSource.PlayOneShot(clip);
             return;
         }
 
         var master = PersistenceController.instance.soundsMenu.saveAudio.master / 100f;
         var sfx = PersistenceController.instance.soundsMenu.saveAudio.sfx / 100f;
         _audioSource.volume = 0.5f * master * sfx;
-        _audioSource.PlayOneShot(_audioSource.clip);
+        _audioSource.PlayOneShot(clip);
     }
 }

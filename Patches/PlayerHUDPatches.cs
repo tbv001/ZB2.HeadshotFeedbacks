@@ -39,7 +39,7 @@ internal static class PlayerHudPatches
         foreach (var image in __instance.hitMarkerLine)
         {
             if (!image.enabled)
-            continue;
+                continue;
 
             var alpha = image.color.a;
             image.color = new Color(1f, 0f, 0f, alpha);
