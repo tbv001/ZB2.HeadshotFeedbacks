@@ -1,9 +1,9 @@
 using HarmonyLib;
 
-namespace HeadshotFeedbacks.Patches;
+namespace HeadshotFeedback.Patches;
 
 [HarmonyPatch(typeof(Shot))]
-public class ShotPatches
+internal static class ShotPatches
 {
     public static bool WasHeadshot;
 

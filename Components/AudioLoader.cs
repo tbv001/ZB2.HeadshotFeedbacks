@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HeadshotFeedbacks.Components;
+namespace HeadshotFeedback.Components;
 
 public class AudioLoader : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class AudioLoader : MonoBehaviour
     {
         if (!File.Exists(path))
         {
-            HeadshotFeedbacks.Logger.LogError($"Audio file not found at: {path}");
+            HeadshotFeedback.Logger.LogError($"Audio file not found at: {path}");
             return null;
         }
 
@@ -38,13 +38,14 @@ public class AudioLoader : MonoBehaviour
         if (uwr.result == UnityWebRequest.Result.Success)
             return DownloadHandlerAudioClip.GetContent(uwr);
 
-        HeadshotFeedbacks.Logger.LogError($"Failed to load audio: {uwr.error}");
+        HeadshotFeedback.Logger.LogError($"Failed to load audio: {uwr.error}");
         return null;
     }
 
     public static void PlaySfx()
     {
-        if (_audioSource.clip == null) return;
+        if (_audioSource.clip == null)
+            return;
 
         if (PersistenceController.instance == null)
         {

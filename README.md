@@ -10,13 +10,13 @@
 ## Installation
 
 1. Make sure you have the latest version of **BepInEx 5** installed.
-2. Download the latest version of the mod from the [releases](https://github.com/tbv001/ZB2.HeadshotFeedbacks/releases) page.
+2. Download the latest version of the mod from the [releases](https://github.com/tbv001/ZB2.HeadshotFeedback/releases) page.
 3. Copy the contents of the zip file into the `plugins` folder of your BepInEx installation:
 
 ```
-Zumbi Blocks 2 Open Alpha\BepInEx\plugins\HeadshotFeedbacks
+Zumbi Blocks 2 Open Alpha\BepInEx\plugins\HeadshotFeedback
 ```
 
 ## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](https://github.com/tbv001/ZB2.HeadshotFeedbacks/blob/main/LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](https://github.com/tbv001/ZB2.HeadshotFeedback/blob/main/LICENSE) file for details.

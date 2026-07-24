@@ -3,16 +3,14 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using HeadshotFeedbacks.Components;
+using HeadshotFeedback.Components;
 
-namespace HeadshotFeedbacks;
+namespace HeadshotFeedback;
 
-[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-public class HeadshotFeedbacks : BaseUnityPlugin
+[BepInPlugin(PluginGuid, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+public class HeadshotFeedback : BaseUnityPlugin
 {
-    public const string PluginName = "Headshot Feedbacks";
-    public const string PluginVersion = "1.0.0";
-    public const string PluginGuid = "com.theblackvoid.headshotfeedbacks";
+    internal const string PluginGuid = "com.theblackvoid.headshotfeedback";
     internal new static ManualLogSource Logger;
     private readonly Harmony _harmony = new(PluginGuid);
 
@@ -23,7 +21,7 @@ public class HeadshotFeedbacks : BaseUnityPlugin
         {
             gameObject.AddComponent<AudioLoader>();
             _harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Logger.LogInfo("Successfully loaded and patched!");
+            Logger.LogInfo("Successfully loaded!");
         }
         catch (Exception e)
         {

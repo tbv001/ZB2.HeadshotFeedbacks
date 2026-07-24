@@ -1,11 +1,11 @@
 using HarmonyLib;
 using UnityEngine;
-using HeadshotFeedbacks.Components;
+using HeadshotFeedback.Components;
 
-namespace HeadshotFeedbacks.Patches;
+namespace HeadshotFeedback.Patches;
 
 [HarmonyPatch(typeof(PlayerHUD))]
-public class PlayerHudPatches
+internal static class PlayerHudPatches
 {
     public static bool IsCurrentHitmarkerHeadshot;
 
@@ -38,7 +38,8 @@ public class PlayerHudPatches
 
         foreach (var image in __instance.hitMarkerLine)
         {
-            if (!image.enabled) continue;
+            if (!image.enabled)
+            continue;
 
             var alpha = image.color.a;
             image.color = new Color(1f, 0f, 0f, alpha);
