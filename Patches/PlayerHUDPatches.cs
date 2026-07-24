@@ -20,9 +20,10 @@ internal static class PlayerHudPatches
 
         if (IsCurrentHitmarkerHeadshot)
         {
-            AudioLoader.PlaySfx();
+            AudioLoader.PlaySfx(ShotPatches.LastHeadshotPosition);
         }
-        else
+
+        if (!IsCurrentHitmarkerHeadshot || AudioLoader.Use3DAudio)
         {
             AudioController.instance.PlayGlobalFX(AudioController.GlobalFXID.HitMarker);
         }
@@ -34,7 +35,8 @@ internal static class PlayerHudPatches
     [HarmonyPatch("UpdateHitmarkerDisplay")]
     private static void ColorItRed(PlayerHUD __instance)
     {
-        if (!IsCurrentHitmarkerHeadshot) return;
+        if (!IsCurrentHitmarkerHeadshot)
+            return;
 
         foreach (var image in __instance.hitMarkerLine)
         {

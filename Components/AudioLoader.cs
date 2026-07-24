@@ -9,6 +9,8 @@ namespace HeadshotFeedback.Components;
 
 public class AudioLoader : MonoBehaviour
 {
+    public const bool Use3DAudio = true;
+
     private static readonly List<AudioClip> AudioClips = [];
     private static AudioSource _audioSource;
 
@@ -62,23 +64,30 @@ public class AudioLoader : MonoBehaviour
         return null;
     }
 
-    public static void PlaySfx()
+    private static float GetVolume()
+    {
+        if (PersistenceController.instance == null)
+            return 0.5f;
+
+        var master = PersistenceController.instance.soundsMenu.saveAudio.master / 100f;
+        var sfx = PersistenceController.instance.soundsMenu.saveAudio.sfx / 100f;
+        return 0.5f * master * sfx;
+    }
+
+    public static void PlaySfx(Vector3? position = null)
     {
         if (AudioClips.Count == 0)
             return;
 
         var clip = AudioClips[UnityEngine.Random.Range(0, AudioClips.Count)];
-
-        if (PersistenceController.instance == null)
+        var volume = GetVolume();
+        if (Use3DAudio && position.HasValue)
         {
-            _audioSource.volume = 0.5f;
-            _audioSource.PlayOneShot(clip);
+            AudioSource.PlayClipAtPoint(clip, position.Value, volume);
             return;
         }
 
-        var master = PersistenceController.instance.soundsMenu.saveAudio.master / 100f;
-        var sfx = PersistenceController.instance.soundsMenu.saveAudio.sfx / 100f;
-        _audioSource.volume = 0.5f * master * sfx;
+        _audioSource.volume = volume;
         _audioSource.PlayOneShot(clip);
     }
 }

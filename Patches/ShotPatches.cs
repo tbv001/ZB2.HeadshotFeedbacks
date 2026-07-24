@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace HeadshotFeedback.Patches;
 
@@ -6,15 +7,17 @@ namespace HeadshotFeedback.Patches;
 internal static class ShotPatches
 {
     public static bool WasHeadshot;
+    public static Vector3 LastHeadshotPosition;
 
     [HarmonyPrefix]
     [HarmonyPatch("HitDamageTaker")]
-    private static void CheckIfHeadshot(IDamageTaker damageTaker, out bool __state)
+    private static void CheckIfHeadshot(Vector3 hitpoint, IDamageTaker damageTaker, out bool __state)
     {
         __state = damageTaker.DamageMultiplier > 1f;
         if (__state)
         {
             WasHeadshot = true;
+            LastHeadshotPosition = hitpoint;
         }
     }
 
