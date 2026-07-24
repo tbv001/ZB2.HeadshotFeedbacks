@@ -23,7 +23,7 @@ internal static class PlayerHudPatches
             AudioLoader.PlaySfx(ShotPatches.LastHeadshotPosition);
         }
 
-        if (!IsCurrentHitmarkerHeadshot || AudioLoader.Use3DAudio)
+        if (!IsCurrentHitmarkerHeadshot || HeadshotFeedback.Use3DAudio.Value)
         {
             AudioController.instance.PlayGlobalFX(AudioController.GlobalFXID.HitMarker);
         }

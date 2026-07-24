@@ -9,8 +9,6 @@ namespace HeadshotFeedback.Components;
 
 public class AudioLoader : MonoBehaviour
 {
-    public const bool Use3DAudio = true;
-
     private static readonly List<AudioClip> AudioClips = [];
     private static AudioSource _audioSource;
 
@@ -81,7 +79,7 @@ public class AudioLoader : MonoBehaviour
 
         var clip = AudioClips[UnityEngine.Random.Range(0, AudioClips.Count)];
         var volume = GetVolume();
-        if (Use3DAudio && position.HasValue)
+        if (HeadshotFeedback.Use3DAudio.Value && position.HasValue)
         {
             AudioSource.PlayClipAtPoint(clip, position.Value, volume);
             return;
