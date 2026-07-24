@@ -7,23 +7,23 @@ namespace HeadshotFeedback.Patches;
 [HarmonyPatch(typeof(PlayerHUD))]
 internal static class PlayerHudPatches
 {
-    public static bool IsCurrentHitmarkerHeadshot;
+    private static bool _isCurrentHitmarkerHeadshot;
 
     [HarmonyPrefix]
     [HarmonyPatch(nameof(PlayerHUD.HitMarker))]
     private static bool IsHeadshot(PlayerHUD __instance)
     {
-        IsCurrentHitmarkerHeadshot = ShotPatches.WasHeadshot;
+        _isCurrentHitmarkerHeadshot = ShotPatches.WasHeadshot;
 
         var traverse = Traverse.Create(__instance);
         traverse.Field("hitMarker").SetValue(1f);
 
-        if (IsCurrentHitmarkerHeadshot)
+        if (_isCurrentHitmarkerHeadshot)
         {
             AudioLoader.PlaySfx(ShotPatches.LastHeadshotPosition);
         }
 
-        if (!IsCurrentHitmarkerHeadshot || HeadshotFeedback.Use3DAudio.Value)
+        if (!_isCurrentHitmarkerHeadshot || HeadshotFeedback.Use3DAudio.Value)
         {
             AudioController.instance.PlayGlobalFX(AudioController.GlobalFXID.HitMarker);
         }
@@ -35,7 +35,7 @@ internal static class PlayerHudPatches
     [HarmonyPatch("UpdateHitmarkerDisplay")]
     private static void ColorItRed(PlayerHUD __instance)
     {
-        if (!IsCurrentHitmarkerHeadshot)
+        if (!_isCurrentHitmarkerHeadshot)
             return;
 
         foreach (var image in __instance.hitMarkerLine)
