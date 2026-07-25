@@ -65,11 +65,11 @@ public class AudioLoader : MonoBehaviour
     private static float GetVolume()
     {
         if (PersistenceController.instance == null)
-            return 0.5f;
+            return HeadshotFeedback.SfxVolume.Value / 100f;
 
         var master = PersistenceController.instance.soundsMenu.saveAudio.master / 100f;
         var sfx = PersistenceController.instance.soundsMenu.saveAudio.sfx / 100f;
-        return 0.5f * master * sfx;
+        return HeadshotFeedback.SfxVolume.Value / 100f * master * sfx;
     }
 
     public static void PlaySfx(Vector3? position = null)
