@@ -69,7 +69,21 @@ public class AudioLoader : MonoBehaviour
 
         var master = PersistenceController.instance.soundsMenu.saveAudio.master / 100f;
         var sfx = PersistenceController.instance.soundsMenu.saveAudio.sfx / 100f;
-        return HeadshotFeedback.SfxVolume.Value / 100f * master * sfx;
+        var flashbangFactor = 0f;
+
+        if (ZBMain.instance?.audioController != null)
+        {
+            flashbangFactor = ZBMain.instance.audioController.flashEffectFactor;
+        }
+        else if (ScreenFlashController.instance != null && ScreenFlashController.instance.isFlashed)
+        {
+            flashbangFactor = ScreenFlashController.instance.GetFlashCoef();
+        }
+
+        var flashbangDb = -5f * flashbangFactor;
+        var flashbangLinear = Mathf.Pow(10f, flashbangDb / 20f);
+
+        return HeadshotFeedback.SfxVolume.Value / 100f * master * sfx * flashbangLinear;
     }
 
     public static void PlaySfx(Vector3? position = null)
