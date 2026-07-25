@@ -4,7 +4,8 @@
 
 ## Features
 
-- Plays a random `.mp3` sound file in the `Sounds/` folder of the mod when you successfully land a headshot, replacing the default game hitmarker sound
+- Plays a random `.mp3` sound file from the `Sounds/` folder of the mod when you successfully land a headshot
+- An option to choose whether the audio is played in 3D or 2D; the 2D option replaces the hitmarker sound, while 3D plays the sound in the 3D position where you hit the target
 - Changes the color of your hitmarker to solid red upon landing a headshot
 
 ## Installation
