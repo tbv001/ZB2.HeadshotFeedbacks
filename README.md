@@ -1,16 +1,16 @@
-# Headshot Feedbacks
+# Headshot Feedback
 
-**Headshot Feedbacks** is a mod for **Zumbi Blocks 2** that adds distinct audio and visual indicators when you land a headshot.
+**Headshot Feedback** is a mod for **Zumbi Blocks 2** that adds distinct audio and visual indicators when you land a headshot.
 
 ## Features
 
-- Plays a custom sound (`Headshot.mp3`) when you successfully land a headshot, replacing the default game hitmarker sound.
-- Changes the color of your hitmarker to solid red upon landing a headshot.
+- Plays a random `.mp3` sound file in the `Sounds/` folder of the mod when you successfully land a headshot, replacing the default game hitmarker sound
+- Changes the color of your hitmarker to solid red upon landing a headshot
 
 ## Installation
 
-1. Make sure you have the latest version of **BepInEx 5** installed.
-2. Download the latest version of the mod from the [releases](https://github.com/tbv001/ZB2.HeadshotFeedback/releases) page.
+1. Make sure you have the latest version of **BepInEx 5** installed
+2. Download the latest version of the mod from the [releases](https://github.com/tbv001/ZB2.HeadshotFeedback/releases) page
 3. Copy the contents of the zip file into the `plugins` folder of your BepInEx installation:
 
 ```
