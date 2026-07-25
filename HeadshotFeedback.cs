@@ -14,6 +14,7 @@ public class HeadshotFeedback : BaseUnityPlugin
     internal const string PluginGuid = "com.theblackvoid.headshotfeedback";
     internal new static ManualLogSource Logger;
     private readonly Harmony _harmony = new(PluginGuid);
+    public static ConfigEntry<int> SfxVolume;
     public static ConfigEntry<bool> Use3DAudio;
 
     private void Awake()
@@ -34,6 +35,8 @@ public class HeadshotFeedback : BaseUnityPlugin
 
     private void Configure()
     {
+        SfxVolume = Config.Bind(new ConfigDefinition("General", "Sound Volume"), 50,
+            new ConfigDescription("Sound volume", new AcceptableValueRange<int>(0, 100)));
         Use3DAudio = Config.Bind(new ConfigDefinition("General", "Use 3D Audio"), true,
             new ConfigDescription("Use 3D audio for hitmarker sounds"));
     }
